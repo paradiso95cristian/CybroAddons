@@ -38,7 +38,7 @@ class ResPartner(models.Model):
     next_reminder_date = fields.Date(compute='_compute_for_followup',
                                      store=False, readonly=True)
     total_overdue = fields.Monetary(compute='_compute_for_followup',
-                                    store=False, readonly=True)
+                                    store=True, readonly=True)
     followup_status = fields.Selection(
         [('in_need_of_action', 'In need of action'),
          ('with_overdue_invoices', 'With overdue invoices'),
