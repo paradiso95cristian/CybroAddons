@@ -122,6 +122,7 @@ class AccountCommonJournalReport(models.TransientModel):
     """Model used for creating the common journal report"""
     _name = 'account.common.journal.report'
     _description = 'Common Journal Report'
+    _table = 'common_journal_report'
     _inherit = "account.report"
 
     section_main_report_ids = fields.Many2many(string="Section Of",

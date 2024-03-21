@@ -25,6 +25,7 @@ from odoo.tools.misc import get_lang
 
 class AccountingCommonPartnerReport(models.TransientModel):
     _name = 'account.common.partner.report'
+    _table = 'common_partner_report'
     _description = 'Account Common Partner Report'
     _inherit = "account.report"
 

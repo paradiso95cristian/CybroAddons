@@ -26,6 +26,7 @@ from odoo.exceptions import UserError
 class AccountReportGeneralLedger(models.TransientModel):
     _inherit = "account.common.account.report"
     _name = "account.report.general.ledger"
+    _table = 'report_general_ledger'
     _description = "General Ledger Report"
 
     section_main_report_ids = fields.Many2many(string="Section Of",
