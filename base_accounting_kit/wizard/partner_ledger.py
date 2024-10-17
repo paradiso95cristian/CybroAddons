@@ -26,6 +26,7 @@ class AccountPartnerLedger(models.TransientModel):
     _name = "account.report.partner.ledger"
     _inherit = "account.common.partner.report"
     _description = "Account Partner Ledger"
+    _table = 'report_partner_ledger'
 
     section_main_report_ids = fields.Many2many(string="Section Of",
                                                comodel_name='account.report',
