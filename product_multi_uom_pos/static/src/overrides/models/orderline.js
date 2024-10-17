@@ -1,7 +1,7 @@
 /** @odoo-module */
 
 import { patch } from "@web/core/utils/patch";
-import { Orderline } from "@point_of_sale/app/store/models";
+import { Orderline, Order } from "@point_of_sale/app/store/models";
 
 patch(Orderline.prototype, {
     export_as_JSON(){
@@ -17,10 +17,12 @@ patch(Orderline.prototype, {
     init_from_JSON(json){
         super.init_from_JSON(...arguments);
         // Set the product_uom_id from the JSON data
+        if(this.pos.units_by_id[json.product_uom_id]){
         this.product_uom_id = {
             0 : this.pos.units_by_id[json.product_uom_id].id,
             1 : this.pos.units_by_id[json.product_uom_id].name,
         };
+        }
     },
     // Add a custom set_uom method
     set_uom(uom_id){
@@ -39,19 +41,19 @@ patch(Orderline.prototype, {
             return this.pos.units_by_id[unit_id];
         }
     return this.product.get_unit();
-	},
+    },
     onSelectionChangedUom(ev) {
-            var splitTargetValue = ev.target.value.split(',')
-            var price = splitTargetValue[0]
-            var uomId = splitTargetValue[1]
-            var uomName = splitTargetValue[2]
-            // Set the selected unit of measure on the order line
-            const currentOrder = this.env.services.pos.get_order();
-            currentOrder.selected_orderline.set_uom({0:uomId,1:uomName})
-          // Set the price_manually_set flag to indicate that the price was manually set
-            currentOrder.selected_orderline.price_manually_set = true;
-           // Set the unit price of selected UoM on the order line
-            currentOrder.selected_orderline.set_unit_price(price);
+            var uom_id = ev.target.value
+            var selected_uom = this.env.services.pos.units_by_id[uom_id]
+            var selected_product = this.props.slots['product-name'].__ctx.line
+            selected_product.set_uom({0:selected_uom.id,1:selected_uom.name})
+            selected_product.price_type = "manual";
+            if (selected_uom.uom_type == "smaller"){
+                selected_product.set_unit_price(selected_product.product.lst_price * (1 / selected_uom.ratio));
+            } else {
+                selected_product.set_unit_price(selected_product.product.lst_price * selected_uom.ratio);
+            }
+
     },
      getUom(self) {
         const currentOrder = self.env.services.pos.get_order();
@@ -72,6 +74,14 @@ patch(Orderline.prototype, {
             getUom: this.getUom,
             resetUom: this.resetUom,
             onSelectionChangedUom: this.onSelectionChangedUom,
+            multiUom: [...this.product.pos_multi_uom_ids],
         };
+    },
+});
+patch(Order.prototype, {
+    export_for_printing() {
+        var result = super.export_for_printing(...arguments);
+        result['orderlines'] =  result['orderlines'].map(({ onSelectionChangedUom, ...rest }) => rest);
+        return result;
     },
 });

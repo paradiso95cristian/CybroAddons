@@ -31,6 +31,7 @@ class PosOrder(models.Model):
                                                ("waiting", "Cooking"),
                                                ("ready", "Ready"),
                                                ("cancel", "Cancel")],
+                                    default='draft',
                                     help='To know the status of order')
     order_ref = fields.Char(string="Order Reference",
                             help='Reference of the order')

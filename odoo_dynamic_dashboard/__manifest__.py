@@ -21,29 +21,32 @@
 #############################################################################
 {
     'name': "Odoo Dynamic Dashboard",
-    'version': '17.0.1.0.0',
-    'category': 'Extra Tools ',
+    'version': '17.0.2.0.1',
+    'category': 'Productivity',
     'summary': """Create Configurable Dashboards Easily""",
-    'description': """Create Configurable Dashboard Dynamically to get the 
-    information that are relevant to your business, department, 
-    or a specific process or need, Dynamic Dashboard, Dashboard ,
-    Dashboard Odoo""",
+    'description': """Odoo Dynamic Dashboard, Dynamic Dashboard, Odoo Dashboard, Web Dynamic Dashboard, Dashboard with AI, Analytic Dashboard, AI Dashboard, Odoo17 Dashboard, Responsive Dashboard, Odoo17, Dashboard""",
     'author': 'Cybrosys Techno Solutions',
     'company': 'Cybrosys Techno Solutions',
     'maintainer': 'Cybrosys Techno Solutions',
-    'website': 'https://www.cybrosys.com',
+    'website': "https://www.cybrosys.com",
     'depends': ['web'],
     'data': [
         'security/ir.model.access.csv',
-        'views/dashboard_view.xml',
-        'views/dashboard_menu_view.xml',
-        'views/dynamic_block_view.xml',
+        'data/dashboard_theme_data.xml',
+        'views/dashboard_views.xml',
+        'views/dynamic_block_views.xml',
+        'views/dashboard_menu_views.xml',
+        'views/dashboard_theme_views.xml',
+        'wizard/dashboard_mail_views.xml',
     ],
     'assets': {
         'web.assets_backend': [
-            'odoo_dynamic_dashboard/static/src/js/**/*.js',
+            'odoo_dynamic_dashboard/static/src/css/**/*.css',
             'odoo_dynamic_dashboard/static/src/scss/**/*.scss',
+            'odoo_dynamic_dashboard/static/src/js/**/*.js',
             'odoo_dynamic_dashboard/static/src/xml/**/*.xml',
+            'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css',
+            'odoo_dynamic_dashboard/static/lib/js/interactjs.js',
         ],
     },
     'images': ['static/description/banner.png'],
@@ -52,3 +55,6 @@
     'auto_install': False,
     'application': True,
 }
+
+
+

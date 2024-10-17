@@ -1,17 +1,18 @@
 /** @odoo-module */
 
 import { registry } from "@web/core/registry";
-const { Component, useState } = owl;
+const { Component, onWillStart, useState, onMounted } = owl;
 import { useService } from "@web/core/utils/hooks";
 
 
 class kitchen_screen_dashboard extends Component {
 
     setup() {
+        super.setup();
         this.busService = this.env.services.bus_service;
         this.busService.addChannel("pos_order_created");
-        this.busService.addEventListener('notification', this.onPosOrderCreation.bind(this));
-
+        onWillStart(() => {
+        this.busService.addEventListener('notification', this.onPosOrderCreation.bind(this));})
         this.action = useService("action");
         this.rpc = this.env.services.rpc;
         this.action = useService("action");
@@ -53,12 +54,12 @@ class kitchen_screen_dashboard extends Component {
         var self=this
         if(payload.message == "pos_order_created" && payload.res_model == "pos.order"){
             self.orm.call("pos.order", "get_details", ["", self.shop_id,""]).then(function(result) {
-                    self.state.order_details = result['orders']
-                    self.state.lines = result['order_lines']
-                    self.state.shop_id=self.shop_id
-                    self.state.draft_count=self.state.order_details.filter((order) => order.order_status=='draft' && order.config_id[0]==self.state.shop_id).length
-                    self.state.waiting_count=self.state.order_details.filter((order) => order.order_status=='waiting' && order.config_id[0]==self.state.shop_id).length
-                    self.state.ready_count=self.state.order_details.filter((order) => order.order_status=='ready' && order.config_id[0]==self.state.shop_id).length
+            self.state.order_details = result['orders']
+            self.state.lines = result['order_lines']
+            self.state.shop_id=self.shop_id
+            self.state.draft_count=self.state.order_details.filter((order) => order.order_status=='draft' && order.config_id[0]==self.state.shop_id).length
+            self.state.waiting_count=self.state.order_details.filter((order) => order.order_status=='waiting' && order.config_id[0]==self.state.shop_id).length
+            self.state.ready_count=self.state.order_details.filter((order) => order.order_status=='ready' && order.config_id[0]==self.state.shop_id).length
             });
         }
     }

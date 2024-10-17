@@ -21,7 +21,7 @@
 ###############################################################################
 {
     'name': 'Project Templates',
-    'version': '17.0.1.0.0',
+    'version': '17.0.1.0.2',
     'category': "Project",
     'summary': "This app allows your project team to create project"
                 "template and task template",
@@ -40,6 +40,7 @@
         'security/ir.model.access.csv',
         'views/project_project_views.xml',
         'views/project_sub_task_views.xml',
+        'views/project_stage_views.xml',
         'views/project_task_template_views.xml'
     ],
     'images': ['static/description/banner.jpg'],
