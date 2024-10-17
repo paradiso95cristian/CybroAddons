@@ -66,7 +66,7 @@ class ResPartner(models.Model):
                         total_overdue += amount or 0
             min_date = record.get_min_date()
             action = record.action_after()
-            if min_date:
+            if min_date and action:
                 date_reminder = min_date + timedelta(days=action)
                 if date_reminder:
                     record.next_reminder_date = date_reminder
